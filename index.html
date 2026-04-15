@@ -189,21 +189,9 @@
     <section id="events" class="events">
         <div class="container">
             <h2 class="section-title">אירועים קרובים</h2>
-            <!-- Events are loaded from Google Sheets. To update: edit the sheet at the URL in the script below. -->
             <div class="events-grid" id="events-grid">
-                <!-- Static fallback - shown if Google Sheets fails to load -->
-                <div class="event-card">
-                    <h3>מעגל נשים לקראת לידה</h3>
-                    <p><strong>📅 תאריך:</strong> 28.2.2026 | שעה 18:00</p>
-                    <p><strong>📍 מיקום:</strong> הסטודיו שלנו, תל אביב</p>
-                    <p>מפגש חם ותומך בקבוצה קטנה, שבו נדבר על פחדים, ציפיות, ונתרגל כלים מעשיים לקראת הלידה.</p>
-                </div>
-                <div class="event-card">
-                    <h3>מפגש הכנה ללידה – כלים פרקטיים ורוגע</h3>
-                    <p><strong>📅 תאריך:</strong> 7.3.2026 | שעה 10:00</p>
-                    <p><strong>📍 מיקום:</strong> אונליין (זום)</p>
-                    <p>סדנה בת 3 שעות שתצייד אותך בטכניקות נשימה, תנוחות להקלה בלידה, ומידע חיוני לקבלת החלטות מושכלות.</p>
-                </div>
+                <div class="event-card skeleton"><div class="skeleton-line wide"></div><div class="skeleton-line medium"></div><div class="skeleton-line medium"></div><div class="skeleton-line narrow"></div></div>
+                <div class="event-card skeleton"><div class="skeleton-line wide"></div><div class="skeleton-line medium"></div><div class="skeleton-line medium"></div><div class="skeleton-line narrow"></div></div>
             </div>
         </div>
     </section>
@@ -318,13 +306,15 @@
         const EVENTS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3qBL-aaDE1hkQ0Zbwr2expeu1KB6Pe_vaWrHN8zdZAqW1sJR4uZVRFmfiNoDtr1xwdxVtr3S5fOTz/pub?gid=2082232568&single=true&output=csv';
 
         async function loadEvents() {
-            if (EVENTS_SHEET_URL === 'PASTE_YOUR_URL_HERE') return;
+            const grid = document.getElementById('events-grid');
             try {
                 const res = await fetch(EVENTS_SHEET_URL);
                 const csv = await res.text();
                 const rows = csv.trim().split('\n').slice(1).filter(r => r.trim());
-                if (!rows.length) return;
-                const grid = document.getElementById('events-grid');
+                if (!rows.length) {
+                    grid.innerHTML = '<p class="events-empty">אין אירועים קרובים כרגע — נעדכן בקרוב!</p>';
+                    return;
+                }
                 grid.innerHTML = rows.map(row => {
                     const cols = row.split(',').map(c => c.replace(/^"|"$/g, '').trim());
                     const [name, date, time, location, desc] = cols;
@@ -336,7 +326,7 @@
                     </div>`;
                 }).join('');
             } catch (e) {
-                // Keep static fallback on error
+                grid.innerHTML = '<p class="events-empty">לא הצלחנו לטעון את האירועים — נסי לרענן את הדף.</p>';
             }
         }
         loadEvents();

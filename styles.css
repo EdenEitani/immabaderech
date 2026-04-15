@@ -355,6 +355,37 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Events skeleton loader */
+        .event-card.skeleton {
+            pointer-events: none;
+        }
+
+        .skeleton-line {
+            height: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #f0e8e8 25%, #e8d8d8 50%, #f0e8e8 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+        }
+
+        .skeleton-line.wide   { width: 75%; }
+        .skeleton-line.medium { width: 55%; }
+        .skeleton-line.narrow { width: 40%; }
+
+        @keyframes shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .events-empty {
+            color: var(--text-light);
+            font-style: italic;
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 2rem 0;
+        }
+
         /* Testimonials */
         .testimonials {
             background: var(--beige);
