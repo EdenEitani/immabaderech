@@ -667,6 +667,18 @@
             transform: scale(1.04);
         }
 
+        .gallery-video {
+            aspect-ratio: 9 / 16;
+        }
+
+        .gallery-video video,
+        .gallery-video iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+        }
+
         @media (max-width: 480px) {
             .logo img {
                 height: 55px;
