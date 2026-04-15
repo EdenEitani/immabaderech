@@ -201,29 +201,20 @@
     <section class="gallery">
         <div class="container">
             <h2 class="section-title">מתוך המפגשים שלנו</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item"><img src="images/session-diana.jpg" alt="מפגש הכנה ללידה"></div>
-                <div class="gallery-item"><img src="images/session-kiara.jpg" alt="יוגה להריון"></div>
-                <div class="gallery-item"><img src="images/session-ball-1.jpg" alt="עבודה עם כדור לידה"></div>
-                <div class="gallery-item"><img src="images/session-ball-2.jpg" alt="תנוחות להקלה בלידה"></div>
-                <div class="gallery-item"><img src="images/session-group.jpg" alt="מפגש קבוצתי"></div>
-                <!-- VIDEO ITEM -->
-                <!-- אפשרות א׳: קובץ מקומי (שמרי את הקובץ בתיקיית images/ בשם gallery-video.mp4) -->
-                <div class="gallery-item gallery-video">
-                    <video controls playsinline>
-                        <source src="images/gallery-video.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <!-- אפשרות ב׳: YouTube — החליפי את ה-src ב-https://www.youtube.com/embed/VIDEO_ID
-                <div class="gallery-item gallery-video">
-                    <iframe src="https://www.youtube.com/embed/VIDEO_ID"
-                        frameborder="0" allowfullscreen
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-                    </iframe>
-                </div>
-                -->
-            </div>
         </div>
+        <div class="gallery-carousel" id="gallery-carousel">
+            <div class="gallery-item gallery-video">
+                <video controls playsinline>
+                    <source src="images/gallery-video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="gallery-item"><img src="images/session-diana.jpg" alt="מפגש הכנה ללידה"></div>
+            <div class="gallery-item"><img src="images/session-kiara.jpg" alt="יוגה להריון"></div>
+            <div class="gallery-item"><img src="images/session-ball-1.jpg" alt="עבודה עם כדור לידה"></div>
+            <div class="gallery-item"><img src="images/session-ball-2.jpg" alt="תנוחות להקלה בלידה"></div>
+            <div class="gallery-item"><img src="images/session-group.jpg" alt="מפגש קבוצתי"></div>
+        </div>
+        <div class="gallery-dots" id="gallery-dots"></div>
     </section>
 
     <!-- Testimonials Section -->
@@ -331,6 +322,78 @@
             }
         }
         loadEvents();
+
+        // ─── Gallery Carousel ───────────────────────────────────────────────
+        (function () {
+            const carousel = document.getElementById('gallery-carousel');
+            const dotsContainer = document.getElementById('gallery-dots');
+            if (!carousel) return;
+
+            const items = Array.from(carousel.querySelectorAll('.gallery-item'));
+            let current = 0;
+            let autoplayTimer;
+
+            // Build dots
+            items.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', 'תמונה ' + (i + 1));
+                dot.addEventListener('click', () => { goTo(i); resetAutoplay(); });
+                dotsContainer.appendChild(dot);
+            });
+
+            function getDots() { return dotsContainer.querySelectorAll('.gallery-dot'); }
+
+            function goTo(index) {
+                current = ((index % items.length) + items.length) % items.length;
+                carousel.scrollTo({ left: items[current].offsetLeft, behavior: 'smooth' });
+                getDots().forEach((d, i) => d.classList.toggle('active', i === current));
+            }
+
+            function next() { goTo(current + 1); }
+
+            function startAutoplay() {
+                autoplayTimer = setInterval(next, 3500);
+            }
+
+            function resetAutoplay() {
+                clearInterval(autoplayTimer);
+                startAutoplay();
+            }
+
+            // Pause autoplay while video is playing or user is interacting
+            carousel.addEventListener('mouseenter', () => clearInterval(autoplayTimer));
+            carousel.addEventListener('mouseleave', startAutoplay);
+            carousel.addEventListener('touchstart', () => clearInterval(autoplayTimer), { passive: true });
+            carousel.addEventListener('touchend', () => setTimeout(startAutoplay, 2500), { passive: true });
+
+            const videoEl = carousel.querySelector('video');
+            if (videoEl) {
+                videoEl.addEventListener('play', () => clearInterval(autoplayTimer));
+                videoEl.addEventListener('pause', startAutoplay);
+                videoEl.addEventListener('ended', startAutoplay);
+            }
+
+            // Sync dot on manual scroll
+            let scrollTimeout;
+            carousel.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    const center = carousel.scrollLeft + carousel.offsetWidth / 2;
+                    let closest = 0;
+                    items.forEach((item, i) => {
+                        const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+                        if (Math.abs(itemCenter - center) < Math.abs(items[closest].offsetLeft + items[closest].offsetWidth / 2 - center)) {
+                            closest = i;
+                        }
+                    });
+                    current = closest;
+                    getDots().forEach((d, i) => d.classList.toggle('active', i === current));
+                }, 100);
+            });
+
+            startAutoplay();
+        })();
     </script>
 </body>
 </html>
