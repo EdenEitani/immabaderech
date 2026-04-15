@@ -744,7 +744,11 @@
 
         @media (max-width: 480px) {
             .logo img {
-                height: 65px;
+                height: 85px;
+            }
+
+            .header-content {
+                justify-content: center;
             }
 
             .services-grid {
