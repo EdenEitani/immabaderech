@@ -57,9 +57,9 @@
         }
 
         .logo img {
-            height: 75px;
+            height: 95px;
             width: auto;
-            max-width: 250px;
+            max-width: 280px;
             object-fit: contain;
         }
 
@@ -709,7 +709,7 @@
 
         @media (max-width: 480px) {
             .logo img {
-                height: 55px;
+                height: 65px;
             }
 
             .services-grid {
