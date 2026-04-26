@@ -128,13 +128,15 @@
             order: -1;
         }
 
-        .hero-image img {
+        .hero-image img,
+        .hero-image video {
             width: 400px;
             height: 400px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 50%;
             box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             border: 6px solid var(--pink-light);
+            background: var(--pink-light);
         }
 
         .hero h1 {
@@ -496,10 +498,12 @@
                 order: 0;
             }
 
-            .hero-image img {
+            .hero-image img,
+            .hero-image video {
                 margin: 0 auto;
                 width: 300px;
                 height: 300px;
+                display: block;
             }
 
             .hero h1 {
@@ -639,6 +643,13 @@
             color: var(--text-dark);
         }
 
+        .accordion-section-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 1.2rem 0 0.6rem;
+            font-size: 1rem;
+        }
+
         /* Coming soon cards */
         .service-card-coming-soon {
             opacity: 0.75;
@@ -767,7 +778,8 @@
                 gap: 2rem;
             }
 
-            .hero-image img {
+            .hero-image img,
+            .hero-image video {
                 width: 250px;
                 height: 250px;
             }

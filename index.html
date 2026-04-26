@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="images/logo.png">
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
     <!-- Header -->
@@ -43,7 +43,9 @@
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="images/hero.jpg" alt="אישה בהריון - יוגה והכנה ללידה">
+                    <video autoplay muted loop playsinline>
+                        <source src="images/gallery-video.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
         </div>
@@ -128,6 +130,7 @@
                         <div class="accordion-title-row">
                             <div>
                                 <h3>סדנאות תנועה כהכנה ללידה</h3>
+                                <p class="service-subtitle">הסוד שבתנועה</p>
                             </div>
                             <span class="accordion-icon">+</span>
                         </div>
@@ -172,17 +175,61 @@
                 </div>
 
                 <!-- Card 4: שיעורי יוגה -->
-                <div class="service-card service-card-coming-soon">
-                    <img src="images/session-kiara.jpg" alt="שיעורי יוגה" class="service-image">
-                    <h3>שיעורי יוגה</h3>
-                    <p class="coming-soon-label">פרטים בקרוב</p>
+                <div class="service-card accordion-card">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <img src="images/session-kiara.jpg" alt="שיעורי יוגה" class="service-image">
+                        <div class="accordion-title-row">
+                            <div>
+                                <h3>שיעורי יוגה</h3>
+                                <p class="service-subtitle">עם קיארה</p>
+                            </div>
+                            <span class="accordion-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p class="accordion-intro">שיעורי היוגה שלי מציעים לך מרחב לנשימה, תנועה וחיבור עמוק לגוף המשתנה. התרגול מותאם לכל שלבי ההריון ונועד להעניק לך כלים גופניים ומנטליים לקראת הלידה, יחד עם מענה רגשי ורגעים של שקט והרפיה.</p>
+                            <ul class="accordion-list">
+                                <li><strong>תנועה משחררת ומחזקת:</strong> עבודה עדינה להקלה על עומסים (גב, אגן ורגליים) וחיזוק מותאם לשינויי הגוף.</li>
+                                <li><strong>נשימה להרגעה ואיזון:</strong> למידת טכניקות נשימה המאזנות את מערכת העצבים – כלי משמעותי להתמודדות פיזית ומנטלית בהריון ובלידה.</li>
+                                <li><strong>הכנה רכה ללידה:</strong> תרגול תנוחות לקידום פתיחת האגן, בשילוב צלילים מרפאים ועיסוי בשמנים אתריים להרפיה עמוקה.</li>
+                                <li><strong>מרחב לשיתוף וחיבור:</strong> זמן להעלות תחושות ורגשות שעולים סביב ההיריון והמפגש המרגש שמתקרב.</li>
+                                <li><strong>ליווי אישי / זוגי או בקבוצה קטנה:</strong> מרחב אינטימי המאפשר התאמה מדויקת למקום שבו את נמצאת.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Card 5: ליווי דולה -->
-                <div class="service-card service-card-coming-soon">
-                    <img src="images/session-ball-2.jpg" alt="ליווי דולה" class="service-image">
-                    <h3>ליווי דולה</h3>
-                    <p class="coming-soon-label">פרטים בקרוב</p>
+                <div class="service-card accordion-card">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <img src="images/session-ball-2.jpg" alt="ליווי דולה" class="service-image">
+                        <div class="accordion-title-row">
+                            <div>
+                                <h3>ליווי דולה</h3>
+                                <p class="service-subtitle">עם דיאנה</p>
+                            </div>
+                            <span class="accordion-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p class="accordion-intro">הליווי שלי כדולה נועד לתת לך בדיוק את מה שאת צריכה ברגעים הכי משמעותיים שלך — ביטחון, ידע, נוכחות ותמיכה אמיתית, לפני הלידה, במהלכה ואחריה.</p>
+                            <ul class="accordion-list">
+                                <li><strong>הכנה פיזית וכלים פרקטיים:</strong> שילוב טכניקות להקלה על כאבי הצירים ומתן כלים מעשיים להתמודדות מיטבית עם מהלך הלידה.</li>
+                                <li><strong>תמיכה רגשית עמוקה:</strong> ליווי צמוד שנועד לעזור לך להיכנס לחוויה כשאת מחוברת לעצמך, רגועה ובטוחה.</li>
+                                <li><strong>הדרכה למלווה:</strong> הענקת כלים פשוטים שיאפשרו למלווה שלך לתמוך בך בביטחון ולהיות שותף משמעותי בלידה.</li>
+                            </ul>
+                            <p class="accordion-section-title">מה כולל הליווי:</p>
+                            <ul class="accordion-list">
+                                <li>פגישת היכרות ללא התחייבות.</li>
+                                <li>שני מפגשי הכנה מעמיקים ללידה.</li>
+                                <li>ליווי רציף בלידה מהרגע שאת צריכה אותי.</li>
+                                <li>זמינות מלאה ומתן מענה לכל שאלה או התייעצות בכל הנוגע למהלך ההריון והלידה.</li>
+                                <li>מפגש לאחר הלידה לעיבוד החוויה.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
             </div>
