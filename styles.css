@@ -356,6 +356,29 @@
             margin-bottom: 0.5rem;
         }
 
+        .event-list {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .event-list li {
+            color: var(--text-light);
+            padding-right: 1rem;
+            border-right: 2px solid var(--primary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .event-price {
+            margin-top: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dark) !important;
+        }
+
         /* Events skeleton loader */
         .event-card.skeleton {
             pointer-events: none;

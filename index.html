@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="images/logo.png">
-    <link rel="stylesheet" href="styles.css?v=4">
+    <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
     <!-- Header -->
@@ -339,32 +339,69 @@
         }
 
         // ─── Google Sheets Events ───────────────────────────────────────────
-        // HOW TO UPDATE EVENTS:
-        // 1. Open your Google Sheet (create one if needed with columns:
-        //    שם | תאריך | שעה | מיקום | תיאור)
-        // 2. File → Share → Publish to web → Sheet1 → CSV → Publish
-        // 3. Copy the published URL and paste it below instead of PASTE_YOUR_URL_HERE
-        // 4. Save and the site will automatically show your events!
         const EVENTS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3qBL-aaDE1hkQ0Zbwr2expeu1KB6Pe_vaWrHN8zdZAqW1sJR4uZVRFmfiNoDtr1xwdxVtr3S5fOTz/pub?gid=2082232568&single=true&output=csv';
+
+        // Full RFC-4180 CSV parser — handles quoted fields with commas and newlines
+        function parseCSV(text) {
+            const rows = [];
+            let row = [], field = '', inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+                if (inQuotes) {
+                    if (ch === '"' && text[i + 1] === '"') { field += '"'; i++; }
+                    else if (ch === '"') { inQuotes = false; }
+                    else { field += ch; }
+                } else {
+                    if (ch === '"') { inQuotes = true; }
+                    else if (ch === ',') { row.push(field.trim()); field = ''; }
+                    else if (ch === '\n') {
+                        row.push(field.trim()); field = '';
+                        if (row.some(c => c)) rows.push(row);
+                        row = [];
+                    } else if (ch !== '\r') { field += ch; }
+                }
+            }
+            if (field || row.length) { row.push(field.trim()); if (row.some(c => c)) rows.push(row); }
+            return rows;
+        }
+
+        // Render description: lines starting with * become bullet points
+        function renderDesc(desc) {
+            if (!desc) return '';
+            const lines = desc.split('\n').map(l => l.trim()).filter(l => l);
+            let html = '', inList = false;
+            for (const line of lines) {
+                if (line.startsWith('*')) {
+                    if (!inList) { html += '<ul class="event-list">'; inList = true; }
+                    html += `<li>${line.slice(1).trim()}</li>`;
+                } else {
+                    if (inList) { html += '</ul>'; inList = false; }
+                    html += `<p>${line}</p>`;
+                }
+            }
+            if (inList) html += '</ul>';
+            return html;
+        }
 
         async function loadEvents() {
             const grid = document.getElementById('events-grid');
             try {
                 const res = await fetch(EVENTS_SHEET_URL);
                 const csv = await res.text();
-                const rows = csv.trim().split('\n').slice(1).filter(r => r.trim());
-                if (!rows.length) {
+                const allRows = parseCSV(csv);
+                const dataRows = allRows.slice(1).filter(r => r[0]); // skip header, skip empty
+                if (!dataRows.length) {
                     grid.innerHTML = '<p class="events-empty">אין אירועים קרובים כרגע — נעדכן בקרוב!</p>';
                     return;
                 }
-                grid.innerHTML = rows.map(row => {
-                    const cols = row.split(',').map(c => c.replace(/^"|"$/g, '').trim());
-                    const [name, date, time, location, desc] = cols;
+                grid.innerHTML = dataRows.map(cols => {
+                    const [name, date, time, location, desc, price] = cols;
                     return `<div class="event-card">
                         <h3>${name || ''}</h3>
                         ${date ? `<p><strong>📅 תאריך:</strong> ${date}${time ? ' | שעה ' + time : ''}</p>` : ''}
                         ${location ? `<p><strong>📍 מיקום:</strong> ${location}</p>` : ''}
-                        ${desc ? `<p>${desc}</p>` : ''}
+                        ${renderDesc(desc)}
+                        ${price ? `<p class="event-price">💰 ${price}</p>` : ''}
                     </div>`;
                 }).join('');
             } catch (e) {
