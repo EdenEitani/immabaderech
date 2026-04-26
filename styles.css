@@ -132,11 +132,10 @@
         .hero-image video {
             width: 400px;
             height: 400px;
-            object-fit: contain;
+            object-fit: cover;
             border-radius: 50%;
             box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             border: 6px solid var(--pink-light);
-            background: var(--pink-light);
         }
 
         .hero h1 {
