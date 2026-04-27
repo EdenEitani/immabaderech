@@ -437,6 +437,14 @@
             text-align: center;
         }
 
+        .testimonial-author {
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
         /* Contact Section */
         .contact {
             background: linear-gradient(135deg, var(--pink-light) 0%, var(--white) 100%);
